@@ -1,0 +1,14 @@
+- name: Manage user accounts in Pritunl VPN
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+  - name: Run Python script to add a new user in Pritunl VPN
+    shell: "./pritunl/bin/python ./pritunl-api-client/main.py --create-user Incline {{ email }}  {{ email }} incline"
+    register: output
+    when: state == "create"
+
+  - name: Run Python script to remove an existing user from Pritunl VPN
+    shell: "./pritunl/bin/python ./pritunl-api-client/main.py --delete-user Incline {{ email }}"
+    register: output
+    when: state == "delete"
